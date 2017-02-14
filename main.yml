@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Install Necessary Packages from apt
+      apt:
+        name: "{{item}}"
+      with_items:
+        - git
+#        - virtualbox
+        - vim
+    - name: Download Google Chrome deb
+      get_url:
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dest: ./google-chrome-stable_current_amd64.deb
+    - name: Install Google Chrome
+      apt:
+        deb: ./google-chrome-stable_current_amd64.deb
+  roles:
+    - { role: theNewFlesh.sublime, sublime_build: 3126 }
+    - { role: geerlingguy.nodejs, nodejs_version: "7.x" }
+    - { role: franklinkim.mongodb, mongodb_version: "3.2" }
+    - {role: geerlingguy.redis }
+    - gantsign.atom
